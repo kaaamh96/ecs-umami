@@ -72,3 +72,20 @@ COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/generated ./generated
 
 CMD ["sh", "scripts/start-docker.sh"]
+
+
+# runtime dependancies & permissions
+
+RUN chown -R umami:umami /app
+
+#port and start up commands
+
+USER umami
+
+ENV HOSTNAME="0.0.0.0"
+
+ENV PORT=3000
+
+EXPOSE 3000
+
+CMD ["sh", "scripts/start-docker.sh"]
