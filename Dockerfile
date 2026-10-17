@@ -51,27 +51,40 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
+
+
+
+
 ENV NODE_ENV=production
 
 RUN addgroup -S umami && adduser -S umami -G umami
 
-COPY --from=builder /app/.next/standalone ./
 
+
+# Install runtime dependencies in a clean package environment
+RUN npm install -g pnpm@12.3.4
+
+RUN echo '{}' > package.json
+
+RUN printf "allowBuilds:\n  '@prisma/engines': true\n  prisma: false\nverifyDepsBeforeRun: false\n" > pnpm-workspace.yaml
+
+RUN pnpm add npm-run-all dotenv chalk semver \
+    prisma@7.10.0 \
+    @prisma/client@7.10.0 \
+    @prisma/adapter-pg@7.10.0
+
+# Copy the application files
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/generated ./generated
+COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-COPY --from=builder /app/public ./public
 
 
-# database 
-COPY --from=builder /app/prisma ./prisma
 
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-
-COPY --from=builder /app/scripts ./scripts
-
-COPY --from=builder /app/generated ./generated
-
-CMD ["sh", "scripts/start-docker.sh"]
 
 
 # runtime dependancies & permissions
