@@ -49,6 +49,9 @@ RUN pnpm build:docker
 
 FROM node:22-alpine AS runner
 
+# Install trusted CA certificates
+RUN apk add --no-cache ca-certificates
+
 WORKDIR /app
 
 
@@ -74,22 +77,28 @@ RUN pnpm add npm-run-all dotenv chalk semver \
     @prisma/adapter-pg@7.10.0
 
 # Copy the application files
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-COPY --from=builder /app/scripts ./scripts
-COPY --from=builder /app/generated ./generated
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder --chown=umami:umami /app/public ./public
+
+COPY --from=builder --chown=umami:umami /app/prisma ./prisma
+
+COPY --from=builder --chown=umami:umami /app/prisma.config.ts ./prisma.config.ts
+
+COPY --from=builder --chown=umami:umami /app/scripts ./scripts
+
+COPY --from=builder --chown=umami:umami /app/generated ./generated
+
+COPY --from=builder --chown=umami:umami /app/.next/standalone ./
+
+COPY --from=builder --chown=umami:umami /app/.next/static ./.next/static
 
 
 
 
 
 
-# runtime dependancies & permissions
 
-RUN chown -R umami:umami /app
+
+
 
 #port and start up commands
 
@@ -101,4 +110,4 @@ ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["sh", "scripts/start-docker.sh"]
+CMD ["sh", "-c", "export HOSTNAME=0.0.0.0; exec sh scripts/start-docker.sh"]
