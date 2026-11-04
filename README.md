@@ -78,3 +78,10 @@ The infrastructure was deployed in the AWS Europe (Ireland) region (`eu-west-1`)
 4. The application returns the response to the user through the ALB.
 
 
+### Architecture Diagram
+
+
+<img width="1536" height="1024" alt="Umami ECS DIAGRAM" src="https://github.com/user-attachments/assets/06b6b3e9-e597-4ae8-b1c6-7a4be207bf14" />
+
+
+
