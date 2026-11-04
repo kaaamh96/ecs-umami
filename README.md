@@ -85,3 +85,53 @@ The infrastructure was deployed in the AWS Europe (Ireland) region (`eu-west-1`)
 
 
 
+## Docker Containerization
+
+The Umami application was containerized using Docker to create a consistent and portable deployment environment.
+
+Rather than relying on a prebuilt container image, I developed a custom **multi-stage Dockerfile** to build and package the application for deployment on Amazon ECS Fargate.
+
+### Multi-Stage Docker Build
+
+The Dockerfile uses three main stages:
+
+1. **Dependencies (deps):** Installs the required application dependencies using Node.js and pnpm.
+2. **Builder:** Compiles the Umami application and generates the production build.
+3. **Runner:** Creates the final runtime image containing the files and dependencies required to run the application.
+
+This approach separates the build environment from the runtime environment, helping reduce unnecessary build dependencies in the final image.
+
+### Container Configuration
+
+The Docker image was configured with the following considerations:
+
+- **Node.js:** Used as the application runtime.
+- **Alpine Linux:** Used as a lightweight base image.
+- **Multi-stage builds:** Separated dependency installation, application compilation, and runtime execution.
+- **Non-root user:** Configured the container to run with reduced privileges.
+- **Port 3000:** Exposed the port used by the Umami application.
+- **Environment variables:** Used to configure application settings and database connectivity.
+- **ARM64 architecture:** Built the image for compatibility with the ECS Fargate task definition.
+
+### Building and Publishing the Image
+
+The container image was built using Docker Buildx and pushed to Amazon Elastic Container Registry (ECR).
+
+The following command demonstrates the build and push process:
+
+```bash
+docker buildx build \
+  --platform linux/arm64 \
+  -t <account-id>.dkr.ecr.eu-west-1.amazonaws.com/umami:latest \
+  --push .
+```
+
+The command performs the following operations:
+
+- `docker buildx build` builds the container image using the Dockerfile.
+- `--platform linux/arm64` specifies the target CPU architecture.
+- `-t` assigns the image tag and ECR repository destination.
+- `--push` uploads the resulting image to Amazon ECR.
+- `.` specifies the current directory as the Docker build context.
+
+The image was subsequently referenced by the ECS task definition and deployed using AWS Fargate.
