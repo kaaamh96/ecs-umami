@@ -330,7 +330,7 @@ Security groups configured to control communication between the Application Load
 
 
 
-![AWS Security Groups](screenshots/Security%20groups.png)
+![AWS Security Groups](screenshots/security-groups.png)
 
 
 
