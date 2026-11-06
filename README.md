@@ -277,3 +277,66 @@ These challenges strengthened my understanding of container runtime environments
 
 
 
+## Deployment Screenshots
+
+The following screenshots document the successful deployment of Umami Analytics on AWS ECS Fargate, including container configuration, networking, database infrastructure, and application accessibility.
+
+### 1. Umami Dashboard
+
+The Umami Analytics dashboard successfully running on AWS infrastructure.
+
+![Umami Dashboard](screenshots/dashboard.png)
+
+### 2. Application Load Balancer — Healthy Target
+
+The ALB target group reporting a healthy ECS application target on port 3000.
+
+![ALB Healthy Target](screenshots/alb-target-health.png)
+
+### 3. ECS Service
+
+The Amazon ECS service running the Umami application using AWS Fargate.
+
+![ECS Service](screenshots/ecs-service.png)
+
+
+### 4. ECS Task Definition
+
+The ECS task definition configured for Linux/ARM64 using AWS Fargate and the `awsvpc` network mode.
+
+**Task Definition Overview**
+
+![ECS Task Definition Overview](screenshots/ecs-task-definition-overview.png)
+
+**Container Configuration**
+
+![ECS Container Configuration](screenshots/ecs-task-definition-container.png)
+
+### 5. Amazon RDS PostgreSQL
+
+The Amazon RDS PostgreSQL database configured to provide persistent storage for Umami.
+
+![Amazon RDS Database](screenshots/rds-config.png)
+
+### 6. VPC and Subnets
+
+The custom VPC network configuration, including public and private subnets across two Availability Zones.
+
+![VPC and Subnets](screenshots/vpc-subnets.png)
+
+### 7. AWS Security Groups
+
+Security groups configured to control communication between the Application Load Balancer, ECS tasks, and RDS database.
+
+
+
+![AWS Security Groups](screenshots/Security%20groups.png)
+
+
+
+### 8. Amazon ECR
+
+The Amazon Elastic Container Registry repository used to store the Umami Docker image for deployment to ECS.
+
+![Amazon ECR Repository](screenshots/ECR-repository.png)
+
