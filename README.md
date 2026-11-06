@@ -340,3 +340,66 @@ The Amazon Elastic Container Registry repository used to store the Umami Docker 
 
 ![Amazon ECR Repository](screenshots/ECR-repository.png)
 
+
+
+
+
+
+## Lessons Learned
+
+Deploying Umami Analytics on AWS ECS Fargate provided valuable hands-on experience in containerization, cloud infrastructure, networking, security, and troubleshooting.
+
+While the deployment was successful, the most valuable learning came from understanding how the different AWS services interact and resolving the technical challenges encountered along the way.
+
+### 1. Docker and Containerization
+
+- Gained practical experience creating a custom multi-stage Dockerfile to separate dependency installation, application building, and runtime execution.
+- Learned how Docker image architecture must match the target ECS runtime architecture (ARM64 vs X86_64).
+- Improved my understanding of container environment variables, runtime dependencies, and application startup commands.
+- Learned how to investigate Docker image size and optimize the final runtime image.
+
+### 2. AWS Networking and Infrastructure
+
+- Developed a stronger understanding of VPCs, public and private subnets, route tables, Internet Gateways, and NAT Gateways.
+- Learned how to design infrastructure across two Availability Zones.
+- Understood how an Application Load Balancer distributes incoming traffic to ECS tasks running in private subnets.
+- Gained experience configuring Security Groups to restrict communication between the ALB, ECS tasks, and RDS database.
+
+### 3. Amazon ECS and Fargate
+
+- Learned the relationship between ECS clusters, task definitions, tasks, and services.
+- Understood how ECS Fargate runs containers without requiring EC2 instance management.
+- Gained experience configuring task definitions, container images, environment variables, and AWS Secrets Manager references.
+- Learned how to investigate failed tasks using Amazon CloudWatch logs and ECS service events.
+- Understood why pushing a new Docker image to ECR does not automatically update running ECS tasks.
+
+### 4. Database Connectivity and Security
+
+- Gained practical experience connecting a containerized application to Amazon RDS PostgreSQL.
+- Learned how database connection strings, SSL/TLS settings, and certificate verification affect application connectivity.
+- Understood the importance of managing sensitive configuration through AWS Secrets Manager rather than hardcoding credentials.
+- Identified the need to replace temporary TLS certificate verification workarounds with properly verified database connections.
+
+### 5. Troubleshooting and Problem-Solving
+
+- Learned to approach deployment failures systematically by examining error messages, logs, task configurations, and network settings.
+- Developed a better understanding of how Docker, ECS, networking, and databases interact during application startup.
+- Recognized the importance of testing configuration changes individually and verifying their effects before proceeding.
+- Improved my ability to document technical problems, investigate their root causes, and explain the solutions implemented.
+
+### 6. Cost Management and Documentation
+
+- Learned how AWS resources such as NAT Gateways, Application Load Balancers, and RDS instances can generate ongoing charges.
+- Gained experience cleaning up cloud infrastructure after testing to avoid unnecessary costs.
+- Recognized the importance of capturing deployment screenshots and documenting configuration decisions before deleting resources.
+- Understood how clear technical documentation can demonstrate both implementation skills and the reasoning behind architectural decisions.
+
+### Final Reflection
+
+This project strengthened my understanding of deploying and operating a real application in AWS.
+
+Rather than simply following deployment instructions, I gained experience investigating failures, understanding infrastructure dependencies, and making configuration changes to achieve a working deployment.
+
+The next phases of this project will build on this foundation by introducing Infrastructure as Code with Terraform, HTTPS with a custom domain, and automated CI/CD pipelines using GitHub Actions.
+
+
