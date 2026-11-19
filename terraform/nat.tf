@@ -24,6 +24,7 @@ resource "aws_eip" "umami_nat_eip_1b" {
 resource "aws_nat_gateway" "umami_nat_1a" {
   allocation_id = aws_eip.umami_nat_eip_1a.id
   subnet_id     = aws_subnet.umami_public_1a.id
+  depends_on    = [aws_internet_gateway.umami_igw]
   tags = {
     Name = "umami-nat-1a"
   }
@@ -32,6 +33,7 @@ resource "aws_nat_gateway" "umami_nat_1a" {
 resource "aws_nat_gateway" "umami_nat_1b" {
   allocation_id = aws_eip.umami_nat_eip_1b.id
   subnet_id     = aws_subnet.umami_public_1b.id
+  depends_on    = [aws_internet_gateway.umami_igw]
   tags = {
     Name = "umami-nat-1b"
   }

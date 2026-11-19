@@ -41,6 +41,11 @@ resource "aws_route_table_association" "umami_public_1b_assoc" {
 resource "aws_route_table" "umami_private_rt_1a" {
   vpc_id = aws_vpc.umami_vpc.id
 
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.umami_nat_1a.id
+  }
+
   tags = {
     Name = "umami-private-rt-1a"
 
@@ -49,6 +54,10 @@ resource "aws_route_table" "umami_private_rt_1a" {
 
 resource "aws_route_table" "umami_private_rt_1b" {
   vpc_id = aws_vpc.umami_vpc.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.umami_nat_1b.id
+  }
 
   tags = {
     Name = "umami-private-rt-1b"
