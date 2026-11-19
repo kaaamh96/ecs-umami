@@ -56,3 +56,19 @@ resource "aws_route_table" "umami_private_rt_1b" {
   }
 }
 
+#private associations
+
+resource "aws_route_table_association" "umami_private_1a_assoc" {
+
+  subnet_id      = aws_subnet.umami_private_1a.id
+  route_table_id = aws_route_table.umami_private_rt_1a.id
+
+
+}
+
+resource "aws_route_table_association" "umami_private_1b_assoc" {
+
+  subnet_id      = aws_subnet.umami_private_1b.id
+  route_table_id = aws_route_table.umami_private_rt_1b.id
+
+}
